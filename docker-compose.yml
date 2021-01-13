@@ -1,0 +1,9 @@
+version: '3'
+services:
+  ciel-discord-bot:
+    container_name: ciel-discord-bot
+    env_file: .env
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always

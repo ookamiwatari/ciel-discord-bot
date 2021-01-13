@@ -1,0 +1,28 @@
+{
+  "name": "ciel-discord-bot",
+  "version": "0.0.0",
+  "main": "server.js",
+  "engines": {
+    "node": "12.x"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ookamiwatari/ciel-discord-bot.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ookamiwatari/ciel-discord-bot/issues"
+  },
+  "homepage": "https://github.com/ookamiwatari/ciel-discord-bot",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "discord.js-commando": "github:discordjs/Commando",
+    "discord-paginationembed": "^2.1.0",
+    "querystring": "^0.2.0"
+  }
+}
