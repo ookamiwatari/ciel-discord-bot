@@ -18,3 +18,11 @@ client.on('ready', () => {
 });
 
 client.login(process.env.DISCORD_BOT_TOKEN);
+
+
+const express = require('express');
+const app = express();
+app.get('/', function (req, res) {
+	res.send('Hello World')
+})
+app.listen(process.env.PORT || 8080);
