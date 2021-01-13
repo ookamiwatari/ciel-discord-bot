@@ -26,13 +26,13 @@ module.exports = class Vote extends cmd.Command {
 
 	run(message, {name}) {
 
-		const items = itemList.root['道具'].filter((item) => item['_基本名稱'] && item['_基本名稱'].indexOf(name) !== -1).slice(0, 100);
+		const items = itemList.root['道具'].filter((item) => item['_基本名稱'] && item['_基本名稱'].indexOf(name) !== -1);
 
 		if (!items.length) {
 			return message.channel.send('アイテムが見つかりませんでした。');
 		}
 
-		const embeds = items.map((item) => {
+		const embeds = items.slice(0, 100).map((item) => {
 			return new Discord.MessageEmbed()
 				.setTitle(item['_基本名稱'])
 				.setURL('https://ookamiwatari.github.io/le-ciel-bleu-db/#/item/' + item['_編號'])

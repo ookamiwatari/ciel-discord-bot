@@ -48,7 +48,7 @@ module.exports = class Vote extends cmd.Command {
 			return message.channel.send('ドロップが見つかりませんでした。');
 		}
 
-		const embeds = objs.map((obj) => {
+		const embeds = objs.slice(0, 100).map((obj) => {
 			const drop = dropList.root.drop.find((drop) => drop['_編號'] && drop['_編號'] === obj.id);
 			const drop_prob = getDropProb(drop, scale);
 			if (drop_prob) {
