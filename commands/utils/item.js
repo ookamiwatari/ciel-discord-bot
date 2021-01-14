@@ -108,6 +108,7 @@ function getEquipmentItemDescription (item) {
 	if (item['_靈巧']) description += 'DEX: ' + item['_靈巧'] + '\n';
 	if (item['_平均攻擊']) description += 'ATK: ' + item['_平均攻擊'] + '\n';
 	if (item['_攻擊變數']) description += '攻撃変数: ' + item['_攻擊變數'] + '\n';
+	if (item['_防禦']) description += 'DEF: ' + item['_防禦'] + '\n';
 	if (item['_魔攻']) description += 'MATK: ' + item['_魔攻'] + '\n';
 	if (item['_魔防']) description += 'MDEF: ' + item['_魔防'] + '\n';
 	if (item['_閃躲']) description += 'AVOID: ' + item['_閃躲'] + '\n';
