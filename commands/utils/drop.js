@@ -7,7 +7,7 @@ const dropList = require('../../json/drop.json');
 const servDropList = require('../../json/serv_drop.json');
 const monsterList = require('../../json/monster.json');
 
-module.exports = class Vote extends cmd.Command {
+module.exports = class Drop extends cmd.Command {
 	constructor(client) {
 		super(client, {
 			name: 'drop',

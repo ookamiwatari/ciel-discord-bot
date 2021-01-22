@@ -6,7 +6,7 @@ const itemList = require('../../json/item.json');
 const dropList = require('../../json/drop.json');
 const monsterList = require('../../json/monster.json');
 
-module.exports = class Vote extends cmd.Command {
+module.exports = class Item extends cmd.Command {
 	constructor(client) {
 		super(client, {
 			name: 'item',
