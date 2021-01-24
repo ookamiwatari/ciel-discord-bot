@@ -26,7 +26,7 @@ module.exports = class Item extends cmd.Command {
 
 	run(message, {name}) {
 
-		const items = itemList.root['道具'].filter((item) => item['_基本名稱'] && item['_基本名稱'].indexOf(name) !== -1);
+		const items = itemList.root['道具'].filter((item) => item['_基本名稱'] && item['_編號'] && item['_基本名稱'].indexOf(name) !== -1);
 
 		if (!items.length) {
 			return message.channel.send('アイテムが見つかりませんでした。');
