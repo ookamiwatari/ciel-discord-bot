@@ -33,13 +33,13 @@ module.exports = class Drop extends cmd.Command {
 
 	run(message, {name, scale}) {
 
-		const monsters = monsterList.root.npc.filter((monster) => monster['_名稱'] && monster['_名稱'].indexOf(name) !== -1);
-		const drops = dropList.root.drop.filter((drop) => drop['_怪物名稱'] && drop['_怪物名稱'].indexOf(name) !== -1);
+		const monsters = monsterList.root.npc.filter((monster) => monster['名稱'] && monster['名稱'].indexOf(name) !== -1);
+		const drops = dropList.root.drop.filter((drop) => drop['怪物名稱'] && drop['怪物名稱'].indexOf(name) !== -1);
 
 		const objs = monsters.concat(drops).map((obj) => {
 			return {
-				id: obj['_編號'],
-				name: obj['_名稱'] ? obj['_名稱'] : (obj['_怪物名稱'] ? obj['_怪物名稱'] : '')
+				id: obj['編號'],
+				name: obj['名稱'] ? obj['名稱'] : (obj['怪物名稱'] ? obj['怪物名稱'] : '')
 			}
 		}).filter((x, i, self) => self.findIndex((y) => y.id === x.id) === i).sort((a,b) => +a.id - +b.id);
 
@@ -49,20 +49,20 @@ module.exports = class Drop extends cmd.Command {
 		}
 
 		const embeds = objs.slice(0, 100).map((obj) => {
-			const drop = dropList.root.drop.find((drop) => drop['_編號'] && drop['_編號'] === obj.id);
+			const drop = dropList.root.drop.find((drop) => drop['編號'] && drop['編號'] === obj.id);
 			const drop_prob = getDropProb(drop, scale);
 			if (drop_prob) {
 				return new Discord.MessageEmbed()
 					.setTitle(obj.name)
 					.setURL('https://ookamiwatari.github.io/le-ciel-bleu-db/#/' + (+obj.id < 4214 ? 'monster/' : 'drop/') + obj.id)
 					.addField('袋ドロップ率', drop_prob + '%')
-					.addField('抽選回数', drop ? drop['_個數'] + '回' : '-')
+					.addField('抽選回数', drop ? drop['個數'] + '回' : '-')
 					.setDescription(getDropDescription(drop, scale));
 			} else {
 				return new Discord.MessageEmbed()
 					.setTitle(obj.name)
 					.setURL('https://ookamiwatari.github.io/le-ciel-bleu-db/#/' + (+obj.id < 4214 ? 'monster/' : 'drop/') + obj.id)
-					.addField('抽選回数', drop ? drop['_個數'] + '回' : '-')
+					.addField('抽選回数', drop ? drop['個數'] + '回' : '-')
 					.setDescription(getDropDescription(drop, scale));
 			}
 		});
@@ -90,13 +90,13 @@ function getDropDescription(drop, scale) {
 	if (description !== '') return description;
 
 	for (let i = 1; i < 21; i++) {
-		if (!drop['_item'+i]) continue;
-		let item = itemList.root['道具'].find((item) => item['_編號'] && item['_編號'] === drop['_item'+i]);
-		const count = drop['_count'+i];
+		if (!drop['item'+i]) continue;
+		let item = itemList.root['道具'].find((item) => item['編號'] && item['編號'] === drop['item'+i]);
+		const count = drop['count'+i];
 		if (item) {
-			description += item['_基本名稱'] + (count !== '1' ? 'x' + count : '') + '\n';
+			description += item['基本名稱'] + (count !== '1' ? 'x' + count : '') + '\n';
 		} else {
-			description += getUndefinedItemName(+drop['_item'+i]) + (count !== '1' ? 'x' + count : '') + '\n';
+			description += getUndefinedItemName(+drop['item'+i]) + (count !== '1' ? 'x' + count : '') + '\n';
 		}
 	}
 
@@ -106,34 +106,34 @@ function getDropDescription(drop, scale) {
 
 function getServDropDescription (drop, scale) {
 
-	const serv_drop = servDropList.root.drop.find((_drop) => _drop['_編號'] && _drop['_編號'] === drop['_編號']);
+	const serv_drop = servDropList.root.drop.find((_drop) => _drop['編號'] && _drop['編號'] === drop['編號']);
 	if (!serv_drop) return '';
-	if (!serv_drop['_prob1']) return '';
+	if (!serv_drop['prob1']) return '';
 
 	let description = '';
 
 	let sum_prob = 0;
-	const factor = +serv_drop['_factor'];
+	const factor = +serv_drop['factor'];
 
 	for (let i = 1; i < 21; i++) {
-		if (drop['_item'+i] !== serv_drop['_item'+i]) return '';
-		if (drop['_count'+i] !== serv_drop['_count'+i]) return '';
-		if (!serv_drop['_prob'+i]) continue;
-		sum_prob += +serv_drop['_prob'+i];
+		if (drop['item'+i] !== serv_drop['item'+i]) return '';
+		if (drop['count'+i] !== serv_drop['count'+i]) return '';
+		if (!serv_drop['prob'+i]) continue;
+		sum_prob += +serv_drop['prob'+i];
 	}
 
 	const fixed_scale = factor / sum_prob < scale ? factor / sum_prob : scale;
 
 	for (let i = 1; i < 21; i++) {
-		if (!drop['_item'+i]) continue;
-		let item = itemList.root['道具'].find((item) => item['_編號'] && item['_編號'] === drop['_item'+i]);
-		const count = drop['_count'+i];
-		const prob = Math.round(+serv_drop['_prob'+i] * 10000 * fixed_scale / factor) / 100;
-		const raw_prob = +serv_drop['_prob'+i] * fixed_scale / factor
+		if (!drop['item'+i]) continue;
+		let item = itemList.root['道具'].find((item) => item['編號'] && item['編號'] === drop['item'+i]);
+		const count = drop['count'+i];
+		const prob = Math.round(+serv_drop['prob'+i] * 10000 * fixed_scale / factor) / 100;
+		const raw_prob = +serv_drop['prob'+i] * fixed_scale / factor
 		if (item) {
-			description += item['_基本名稱'] + (count !== '1' ? 'x' + count : '') + ' ' + prob + '% (1/' + Math.ceil(1 / raw_prob) + ')\n';
+			description += item['基本名稱'] + (count !== '1' ? 'x' + count : '') + ' ' + prob + '% (1/' + Math.ceil(1 / raw_prob) + ')\n';
 		} else {
-			description += getUndefinedItemName(+drop['_item'+i]) + (count !== '1' ? 'x' + count : '') + ' ' + prob + '% (1/' + Math.ceil(1 / raw_prob) + ')\n';
+			description += getUndefinedItemName(+drop['item'+i]) + (count !== '1' ? 'x' + count : '') + ' ' + prob + '% (1/' + Math.ceil(1 / raw_prob) + ')\n';
 		}
 	}
 
@@ -145,18 +145,18 @@ function getDropProb (drop, scale) {
 
 	if (!drop) return;
 
-	const serv_drop = servDropList.root.drop.find((_drop) => _drop['_編號'] && _drop['_編號'] === drop['_編號']);
+	const serv_drop = servDropList.root.drop.find((_drop) => _drop['編號'] && _drop['編號'] === drop['編號']);
 	if (!serv_drop) return;
-	if (!serv_drop['_prob1']) return;
+	if (!serv_drop['prob1']) return;
 
 	let sum_prob = 0;
-	const factor = +serv_drop['_factor'];
+	const factor = +serv_drop['factor'];
 
 	for (let i = 1; i < 21; i++) {
-		if (drop['_item'+i] !== serv_drop['_item'+i]) return;
-		if (drop['_count'+i] !== serv_drop['_count'+i]) return;
-		if (!serv_drop['_prob'+i]) continue;
-		sum_prob += +serv_drop['_prob'+i];
+		if (drop['item'+i] !== serv_drop['item'+i]) return;
+		if (drop['count'+i] !== serv_drop['count'+i]) return;
+		if (!serv_drop['prob'+i]) continue;
+		sum_prob += +serv_drop['prob'+i];
 	}
 
 	const prob = sum_prob * 100 * scale / factor;

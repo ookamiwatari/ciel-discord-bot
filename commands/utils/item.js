@@ -26,7 +26,7 @@ module.exports = class Item extends cmd.Command {
 
 	run(message, {name}) {
 
-		const items = itemList.root['道具'].filter((item) => item['_基本名稱'] && item['_編號'] && item['_基本名稱'].indexOf(name) !== -1);
+		const items = itemList.root['道具'].filter((item) => item['基本名稱'] && item['編號'] && item['基本名稱'].indexOf(name) !== -1);
 
 		if (!items.length) {
 			return message.channel.send('アイテムが見つかりませんでした。');
@@ -34,8 +34,8 @@ module.exports = class Item extends cmd.Command {
 
 		const embeds = items.slice(0, 100).map((item) => {
 			return new Discord.MessageEmbed()
-				.setTitle(item['_基本名稱'])
-				.setURL('https://ookamiwatari.github.io/le-ciel-bleu-db/#/item/' + item['_編號'])
+				.setTitle(item['基本名稱'])
+				.setURL('https://ookamiwatari.github.io/le-ciel-bleu-db/#/item/' + item['編號'])
 				.setDescription(getItemDescription(item))
 				.addField('ドロップ', getDropList(item));
 		});
@@ -56,80 +56,80 @@ module.exports = class Item extends cmd.Command {
 };
 
 function getItemDescription (item) {
-	if (item['_物品類別'] === '寶石') {
+	if (item['物品類別'] === '寶石') {
 		return getCrystalItemDescription(item);
-	} else if (item['_無組合變化']) {
+	} else if (item['無組合變化']) {
 		return getEquipmentItemDescription(item);
 	} else {
-		return item['_說明定義'] ? item['_說明定義'] : '';
+		return item['說明定義'] ? item['說明定義'] : '';
 	}
 }
 
 function getCrystalItemDescription (item) {
 	let description = '';
-	if (item['_動態資料1'] === '0') {
+	if (item['動態資料1'] === '0') {
 		description += '部位: 頭\n';
-	} else if (item['_動態資料1'] === '1'){
+	} else if (item['動態資料1'] === '1'){
 		description += '部位: 顔\n';
-	} else if (item['_動態資料1'] === '2'){
+	} else if (item['動態資料1'] === '2'){
 		description += '部位: 武器\n';
-	} else if (item['_動態資料1'] === '3'){
+	} else if (item['動態資料1'] === '3'){
 		description += '部位: 腕\n';
-	} else if (item['_動態資料1'] === '4'){
+	} else if (item['動態資料1'] === '4'){
 		description += '部位: 胴\n';
-	} else if (item['_動態資料1'] === '5'){
+	} else if (item['動態資料1'] === '5'){
 		description += '部位: 背\n';
-	} else if (item['_動態資料1'] === '6'){
+	} else if (item['動態資料1'] === '6'){
 		description += '部位: 足\n';
-	} else if (item['_動態資料1'] === '7'){
+	} else if (item['動態資料1'] === '7'){
 		description += '部位: アクセ\n';
 	}
-	if (item['_動態資料2']) {
-		description += `安定度: ${+item['_動態資料2'] / 10}\n`;
+	if (item['動態資料2']) {
+		description += `安定度: ${+item['動態資料2'] / 10}\n`;
 	}
-	description += `説明: ${item['_說明定義']}`;
+	description += `説明: ${item['說明定義']}`;
 	return description
 }
 
 function getEquipmentItemDescription (item) {
 
 	let description = '';
-	if (item['_物品類別']) description += '部位: ' + item['_物品類別'] + '\n';
-	if (item['_等級限制']) description += '必要レベル: ' + item['_等級限制'] + '\n';
-	if (+item['_物品等級'] < 10) description += 'ランク: ' + '_IPSGD_R_U'[+item['_物品等級']] + '\n';
-	description += 'スロット: ' + (item['_打孔上限'] ? item['_打孔上限'] : 0)  + '\n';
-	if (item['_HP']) description += 'HP: ' + item['_HP'] + (item['_HP定義'] === '最大值百分比' ? '%' : '') + '\n';
-	if (item['_MP']) description += 'SP: ' + item['_MP'] + (item['_MP定義'] === '最大值百分比' ? '%' : '') + '\n';
-	if (item['_力量']) description += 'STR: ' + item['_力量'] + '\n';
-	if (item['_體質']) description += 'VIT: ' + item['_體質'] + '\n';
-	if (item['_智力']) description += 'INT: ' + item['_智力'] + '\n';
-	if (item['_信仰']) description += 'FAI: ' + item['_信仰'] + '\n';
-	if (item['_速度']) description += 'AGI: ' + item['_速度'] + '\n';
-	if (item['_靈巧']) description += 'DEX: ' + item['_靈巧'] + '\n';
-	if (item['_平均攻擊']) description += 'ATK: ' + item['_平均攻擊'] + '\n';
-	if (item['_攻擊變數']) description += '攻撃変数: ' + item['_攻擊變數'] + '\n';
-	if (item['_防禦']) description += 'DEF: ' + item['_防禦'] + '\n';
-	if (item['_魔攻']) description += 'MATK: ' + item['_魔攻'] + '\n';
-	if (item['_魔防']) description += 'MDEF: ' + item['_魔防'] + '\n';
-	if (item['_閃躲']) description += 'AVOID: ' + item['_閃躲'] + '\n';
-	if (item['_命中']) description += 'HIT: ' + item['_命中'] + '\n';
-	if (item['_無屬攻擊']) description += '無属性攻撃: ' + item['_無屬攻擊'] + '\n';
-	if (item['_火屬攻擊']) description += '火属性攻撃: ' + item['_火屬攻擊'] + '\n';
-	if (item['_水屬攻擊']) description += '水属性攻撃: ' + item['_水屬攻擊'] + '\n';
-	if (item['_風屬攻擊']) description += '風属性攻撃: ' + item['_風屬攻擊'] + '\n';
-	if (item['_地屬攻擊']) description += '土属性攻撃: ' + item['_地屬攻擊'] + '\n';
-	if (item['_光屬攻擊']) description += '光属性攻撃: ' + item['_光屬攻擊'] + '\n';
-	if (item['_闇屬攻擊']) description += '闇属性攻撃: ' + item['_闇屬攻擊'] + '\n';
-	if (item['_金錢攻擊']) description += '金銭攻撃: ' + item['_金錢攻擊'] + '\n';
-	if (item['_無屬防禦']) description += '無属性防御: ' + item['_無屬防禦'] + '\n';
-	if (item['_火屬防禦']) description += '火属性防御: ' + item['_火屬防禦'] + '\n';
-	if (item['_水屬防禦']) description += '水属性防御: ' + item['_水屬防禦'] + '\n';
-	if (item['_風屬防禦']) description += '風属性防御: ' + item['_風屬防禦'] + '\n';
-	if (item['_地屬防禦']) description += '土属性防御: ' + item['_地屬防禦'] + '\n';
-	if (item['_光屬防禦']) description += '光属性防御: ' + item['_光屬防禦'] + '\n';
-	if (item['_闇屬防禦']) description += '闇属性防御: ' + item['_闇屬防禦'] + '\n';
-	if (item['_金錢防禦']) description += '金銭防御: ' + item['_金錢防禦'] + '\n';
-	if (item['_說明定義']) description += item['_說明定義'];
+	if (item['物品類別']) description += '部位: ' + item['物品類別'] + '\n';
+	if (item['等級限制']) description += '必要レベル: ' + item['等級限制'] + '\n';
+	if (+item['物品等級'] < 10) description += 'ランク: ' + 'IPSGD_R_U'[+item['物品等級']] + '\n';
+	description += 'スロット: ' + (item['打孔上限'] ? item['打孔上限'] : 0)  + '\n';
+	if (item['HP']) description += 'HP: ' + item['HP'] + (item['HP定義'] === '最大值百分比' ? '%' : '') + '\n';
+	if (item['MP']) description += 'SP: ' + item['MP'] + (item['MP定義'] === '最大值百分比' ? '%' : '') + '\n';
+	if (item['力量']) description += 'STR: ' + item['力量'] + '\n';
+	if (item['體質']) description += 'VIT: ' + item['體質'] + '\n';
+	if (item['智力']) description += 'INT: ' + item['智力'] + '\n';
+	if (item['信仰']) description += 'FAI: ' + item['信仰'] + '\n';
+	if (item['速度']) description += 'AGI: ' + item['速度'] + '\n';
+	if (item['靈巧']) description += 'DEX: ' + item['靈巧'] + '\n';
+	if (item['平均攻擊']) description += 'ATK: ' + item['平均攻擊'] + '\n';
+	if (item['攻擊變數']) description += '攻撃変数: ' + item['攻擊變數'] + '\n';
+	if (item['防禦']) description += 'DEF: ' + item['防禦'] + '\n';
+	if (item['魔攻']) description += 'MATK: ' + item['魔攻'] + '\n';
+	if (item['魔防']) description += 'MDEF: ' + item['魔防'] + '\n';
+	if (item['閃躲']) description += 'AVOID: ' + item['閃躲'] + '\n';
+	if (item['命中']) description += 'HIT: ' + item['命中'] + '\n';
+	if (item['無屬攻擊']) description += '無属性攻撃: ' + item['無屬攻擊'] + '\n';
+	if (item['火屬攻擊']) description += '火属性攻撃: ' + item['火屬攻擊'] + '\n';
+	if (item['水屬攻擊']) description += '水属性攻撃: ' + item['水屬攻擊'] + '\n';
+	if (item['風屬攻擊']) description += '風属性攻撃: ' + item['風屬攻擊'] + '\n';
+	if (item['地屬攻擊']) description += '土属性攻撃: ' + item['地屬攻擊'] + '\n';
+	if (item['光屬攻擊']) description += '光属性攻撃: ' + item['光屬攻擊'] + '\n';
+	if (item['闇屬攻擊']) description += '闇属性攻撃: ' + item['闇屬攻擊'] + '\n';
+	if (item['金錢攻擊']) description += '金銭攻撃: ' + item['金錢攻擊'] + '\n';
+	if (item['無屬防禦']) description += '無属性防御: ' + item['無屬防禦'] + '\n';
+	if (item['火屬防禦']) description += '火属性防御: ' + item['火屬防禦'] + '\n';
+	if (item['水屬防禦']) description += '水属性防御: ' + item['水屬防禦'] + '\n';
+	if (item['風屬防禦']) description += '風属性防御: ' + item['風屬防禦'] + '\n';
+	if (item['地屬防禦']) description += '土属性防御: ' + item['地屬防禦'] + '\n';
+	if (item['光屬防禦']) description += '光属性防御: ' + item['光屬防禦'] + '\n';
+	if (item['闇屬防禦']) description += '闇属性防御: ' + item['闇屬防禦'] + '\n';
+	if (item['金錢防禦']) description += '金銭防御: ' + item['金錢防禦'] + '\n';
+	if (item['說明定義']) description += item['說明定義'];
 
 	return description;
 
@@ -141,32 +141,32 @@ function getDropList (item) {
 	let isShortened = false;
 	let drops = dropList.root.drop.filter((drop) => {
 		for (let i = 1; i <= 40; i++) {
-			if (drop['_item'+i] === item['_編號']) return true;
+			if (drop['item'+i] === item['編號']) return true;
 		}
 		return false;
 	});
 	if (!drops.length) return '無し';
-	if (drops.filter((drop) => drop['_怪物名稱'].startsWith('強欲蔵')).length > 1) {
+	if (drops.filter((drop) => drop['怪物名稱'].startsWith('強欲蔵')).length > 1) {
 		isGreedyStorehouse = true;
-		drops = drops.filter((drop) => !drop['_怪物名稱'].startsWith('強欲蔵'));
+		drops = drops.filter((drop) => !drop['怪物名稱'].startsWith('強欲蔵'));
 	}
-	if (drops.filter((drop) => drop['_怪物名稱'].indexOf('幻想袋') !== -1).length > 1) {
+	if (drops.filter((drop) => drop['怪物名稱'].indexOf('幻想袋') !== -1).length > 1) {
 		isFantasyBag = true;
-		drops = drops.filter((drop) => drop['_怪物名稱'].indexOf('幻想袋') === -1);
+		drops = drops.filter((drop) => drop['怪物名稱'].indexOf('幻想袋') === -1);
 	}
 	if (drops.length > 10) {
 		isShortened = true;
 		drops = drops.slice(0, 10);
 	}
 	return drops.map((drop) => {
-		if (+drop['_編號'] > 4214) {
-			return drop['_怪物名稱'];
+		if (+drop['編號'] > 4214) {
+			return drop['怪物名稱'];
 		} else {
-			const monster = monsterList.root.npc.find((monster) => monster['_編號'] === drop['_編號']);
-			if (monster && monster['_名稱']) {
-				return monster['_名稱'];
+			const monster = monsterList.root.npc.find((monster) => monster['編號'] === drop['編號']);
+			if (monster && monster['名稱']) {
+				return monster['名稱'];
 			} else {
-				return drop['_怪物名稱'];
+				return drop['怪物名稱'];
 			}
 		}
 	}).filter((x, i, self) => self.indexOf(x) === i).join(', ')
