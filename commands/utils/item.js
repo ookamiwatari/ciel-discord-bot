@@ -96,7 +96,7 @@ function getEquipmentItemDescription (item) {
 	let description = '';
 	if (item['物品類別']) description += '部位: ' + item['物品類別'] + '\n';
 	if (item['等級限制']) description += '必要レベル: ' + item['等級限制'] + '\n';
-	if (+item['物品等級'] < 10) description += 'ランク: ' + 'IPSGD_R_U'[+item['物品等級']] + '\n';
+	if (+item['物品等級'] < 10) description += 'ランク: ' + '_IPSGD_R_U'[+item['物品等級']] + '\n';
 	description += 'スロット: ' + (item['打孔上限'] ? item['打孔上限'] : 0)  + '\n';
 	if (item['HP']) description += 'HP: ' + item['HP'] + (item['HP定義'] === '最大值百分比' ? '%' : '') + '\n';
 	if (item['MP']) description += 'SP: ' + item['MP'] + (item['MP定義'] === '最大值百分比' ? '%' : '') + '\n';
