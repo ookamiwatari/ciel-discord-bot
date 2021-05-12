@@ -2,10 +2,10 @@ const Discord = require('discord.js');
 const cmd = require('discord.js-commando');
 const Pagination = require('discord-paginationembed');
 const path = require('path');
-const itemList = require('../../json/item.json');
-const dropList = require('../../json/drop.json');
-const servDropList = require('../../json/serv_drop.json');
-const monsterList = require('../../json/monster.json');
+const itemList = require('../../json/jp/item.json');
+const dropList = require('../../json/jp/drop.json');
+const servDropList = require('../../json/jp/serv_drop.json');
+const monsterList = require('../../json/jp/monster.json');
 
 module.exports = class Drop extends cmd.Command {
 	constructor(client) {

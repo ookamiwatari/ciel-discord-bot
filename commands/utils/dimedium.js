@@ -2,10 +2,10 @@ const Discord = require('discord.js');
 const cmd = require('discord.js-commando');
 const Pagination = require('discord-paginationembed');
 const path = require('path');
-const stageList = require('../../json/stage.json');
-const questList = require('../../json/quest.json');
-const questStepinfoList = require('../../json/quest_stepinfo.json');
-const questSteplistList = require('../../json/quest_steplist.json');
+const stageList = require('../../json/jp/stage.json');
+const questList = require('../../json/jp/quest.json');
+const questStepinfoList = require('../../json/jp/quest_stepinfo.json');
+const questSteplistList = require('../../json/jp/quest_steplist.json');
 
 module.exports = class Dimedium extends cmd.Command {
 	constructor(client) {
