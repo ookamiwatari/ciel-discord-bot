@@ -89,15 +89,27 @@ function getDropDescription(drop, scale) {
 	let description = getServDropDescription(drop, scale);
 	if (description !== '') return description;
 
+	const serv_drop = servDropList.root.drop.find((_drop) => _drop['編號'] && _drop['編號'] === drop['編號']);
+
 	for (let i = 1; i < 21; i++) {
 		if (!drop['item'+i]) continue;
 		let item = itemList.root['道具'].find((item) => item['編號'] && item['編號'] === drop['item'+i]);
 		const count = drop['count'+i];
 		if (item) {
-			description += item['基本名稱'] + (count !== '1' ? 'x' + count : '') + '\n';
+			description += item['基本名稱'] + (count !== '1' ? 'x' + count : '');
 		} else {
-			description += getUndefinedItemName(+drop['item'+i]) + (count !== '1' ? 'x' + count : '') + '\n';
+			description += getUndefinedItemName(+drop['item'+i]) + (count !== '1' ? 'x' + count : '');
 		}
+
+		for (let j = 1; j < 21; j++) {
+			if (!serv_drop || drop['item'+i] !== serv_drop['item'+j]) continue;
+			const factor = +serv_drop['factor'];
+			const prob = Math.round(+serv_drop['prob'+j] * 10000 * scale / factor) / 100;
+			const raw_prob = +serv_drop['prob'+j] * scale / factor;
+			description += ' ' + prob + '% (1/' + Math.ceil(1 / raw_prob) + ')';
+		}
+
+		description += '\n';
 	}
 
 	return description;
