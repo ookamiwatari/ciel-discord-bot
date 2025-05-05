@@ -130,6 +130,7 @@ function getEquipmentItemDescription(item) {
   if (item["魔防"]) description += "MDEF: " + item["魔防"] + "\n";
   if (item["閃躲"]) description += "AVOID: " + item["閃躲"] + "\n";
   if (item["命中"]) description += "HIT: " + item["命中"] + "\n";
+  if (item["重擊機率"]) description += "クリティカル率: " + item["重擊機率"] + "\n";
   if (item["移動速度"]) description += "移動速度: " + item["移動速度"] + "\n";
   if (item["無屬攻擊"]) description += "無属性攻撃: " + item["無屬攻擊"] + "\n";
   if (item["火屬攻擊"]) description += "火属性攻撃: " + item["火屬攻擊"] + "\n";
