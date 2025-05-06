@@ -102,7 +102,7 @@ function getEquipmentItemDescription(item) {
   if (item["物品類別"]) description += "部位: " + item["物品類別"] + "\n";
   if (item["等級限制"]) description += "必要レベル: " + item["等級限制"] + "\n";
   if (+item["物品等級"] < 10)
-    description += "ランク: " + "_IPSGDR__U"[+item["物品等級"]] + "\n";
+    description += "ランク: " + "_IPSGDR_U"[+item["物品等級"]] + "\n";
   description +=
     "スロット: " + (item["打孔上限"] ? item["打孔上限"] : 0) + "\n";
   if (item["HP"])
